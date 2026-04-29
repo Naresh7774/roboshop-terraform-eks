@@ -14,3 +14,14 @@ variable "sg_names" {
         # "catalogue", "user", "cart", "shipping", "payment",
         # frontend
         # "frontend",
+        # bastion
+        "bastion",
+        # frontend load balancer
+        "ingress_alb",
+        # Backend ALB
+        # "backend_alb",
+        "open_vpn",
+        "eks_control_plane",
+        "eks_node"
+    ]
+}
