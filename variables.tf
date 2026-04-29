@@ -6,3 +6,13 @@ variable "project_name" {
     default = "roboshop"
 }
 
+variable "environment"{
+    default = "dev"
+}
+
+variable "vpc_tags" {
+    default = {
+        Purpose = "Roboshop VPC"
+        DontDelete = "true"
+    }
+}
