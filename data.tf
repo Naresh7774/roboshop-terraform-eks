@@ -7,3 +7,14 @@ data "aws_ami" "joindevops" {
         values = ["redhat-9-DevOps-Practice"]
     }
 
+    filter {
+        name   = "root-device-type"
+        values = ["ebs"]
+    }
+
+    filter {
+        name   = "virtualization-type"
+        values = ["hvm"]
+    }
+}
+
