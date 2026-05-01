@@ -125,3 +125,14 @@ resource "aws_security_group_rule" "rabbitmq_bastion" {
 #   protocol          = "tcp"
 #   to_port           = 8080
 # }
+
+
+# This is the mistake we did, cart can't access catalogue directly, it should be through backend ALB
+/* resource "aws_security_group_rule" "catalogue_cart" {
+  type              = "ingress"
+  security_group_id = local.catalogue_sg_id
+  source_security_group_id = local.cart_sg_id
+  from_port         = 8080
+  protocol          = "tcp"
+  to_port           = 8080
+} */
