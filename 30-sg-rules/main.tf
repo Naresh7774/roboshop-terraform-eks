@@ -187,3 +187,11 @@ resource "aws_security_group_rule" "shipping_bastion" {
   protocol          = "tcp"
   to_port           = 22
 }
+resource "aws_security_group_rule" "shipping_backend_alb" {
+  type              = "ingress"
+  security_group_id = local.shipping_sg_id
+  source_security_group_id = local.backend_alb_sg_id
+  from_port         = 8080
+  protocol          = "tcp"
+  to_port           = 8080
+}
