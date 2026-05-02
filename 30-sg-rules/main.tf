@@ -262,3 +262,12 @@ resource "aws_security_group_rule" "backend_alb_shipping" {
   protocol          = "tcp"
   to_port           = 80
 }
+
+resource "aws_security_group_rule" "backend_alb_payment" {
+  type              = "ingress"
+  security_group_id = local.backend_alb_sg_id
+  source_security_group_id = local.payment_sg_id
+  from_port         = 80
+  protocol          = "tcp"
+  to_port           = 80
+}
