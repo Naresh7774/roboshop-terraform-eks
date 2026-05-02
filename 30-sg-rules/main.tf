@@ -305,3 +305,14 @@ resource "aws_security_group_rule" "ingress_alb_public" {
   protocol          = "tcp"
   to_port           = 443
 }
+
+
+##### Bastion SG Rules #####
+resource "aws_security_group_rule" "bastion_laptop" {
+  type              = "ingress"
+  security_group_id = local.bastion_sg_id
+  cidr_blocks = ["0.0.0.0/0"]
+  from_port         = 22
+  protocol          = "tcp"
+  to_port           = 22
+}
