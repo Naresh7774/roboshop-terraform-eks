@@ -17,3 +17,14 @@ resource "aws_ecr_repository" "user" {
   }
   force_delete = true
 }
+
+
+resource "aws_ecr_repository" "cart" {
+  name                 = "${var.project_name}/cart"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = false
+  }
+  force_delete = true
+}
