@@ -386,3 +386,14 @@ resource "aws_security_group_rule" "components_vpn" {
   protocol          = "tcp"
   to_port           = each.value.port
 }
+
+
+#This is the mistake we did, cart can't access components directly from one component to another component. they should be communicated through backend ALB
+/* resource "aws_security_group_rule" "cart_shipping" {
+  type              = "ingress"
+  security_group_id = local.cart_sg_id
+  source_security_group_id = local.shipping_sg_id
+  from_port         = 8080
+  protocol          = "tcp"
+  to_port           = 8080
+}
