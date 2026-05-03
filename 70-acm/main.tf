@@ -31,3 +31,7 @@ resource "aws_route53_record" "roboshop" {
   zone_id         = var.zone_id
 }
 
+resource "aws_acm_certificate_validation" "roboshop" {
+  certificate_arn         = aws_acm_certificate.roboshop.arn
+  validation_record_fqdns = [for record in aws_route53_record.roboshop : record.fqdn]
+}
