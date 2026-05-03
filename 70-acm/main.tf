@@ -9,3 +9,8 @@ resource "aws_acm_certificate" "roboshop" {
     }
   )
 
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
