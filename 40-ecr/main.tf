@@ -28,3 +28,14 @@ resource "aws_ecr_repository" "cart" {
   }
   force_delete = true
 }
+
+
+resource "aws_ecr_repository" "shipping" {
+  name                 = "${var.project_name}/shipping"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = false
+  }
+  force_delete = true
+}
