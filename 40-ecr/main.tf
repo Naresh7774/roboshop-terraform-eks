@@ -39,3 +39,14 @@ resource "aws_ecr_repository" "shipping" {
   }
   force_delete = true
 }
+
+
+resource "aws_ecr_repository" "payment" {
+  name                 = "${var.project_name}/payment"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = false
+  }
+  force_delete = true
+}
