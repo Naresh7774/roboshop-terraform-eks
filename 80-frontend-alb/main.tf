@@ -23,3 +23,14 @@ resource "aws_lb_listener" "ingress_alb" {
   ssl_policy        = "ELBSecurityPolicy-TLS13-1-3-2021-06"
   certificate_arn   = local.ingress_alb_certificate_arn
 
+  default_action {
+    type = "fixed-response"
+
+    fixed_response {
+      content_type = "text/html"
+      message_body = "<h1>Hi, I am from HTTPS ingress ALB</h1>"
+      status_code  = "200"
+    }
+  }
+}
+
