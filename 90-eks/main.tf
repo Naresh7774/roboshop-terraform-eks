@@ -73,3 +73,8 @@ module "eks" {
         amazonEFS = "arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy"
         amazonEBS = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
       }
+
+      # cluster nodes autoscaling
+      min_size     = 2
+      max_size     = 10
+      desired_size = 2
