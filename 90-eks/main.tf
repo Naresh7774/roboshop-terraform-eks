@@ -29,3 +29,16 @@ module "eks" {
   create_security_group      = false
   node_security_group_id = local.eks_node_sg_id
   security_group_id = local.eks_control_plane_sg_id
+
+
+  # EKS Managed Node Group(s)
+  eks_managed_node_groups = {
+    blue = {
+      create = var.enable_blue
+      ami_type       = "AL2023_x86_64_STANDARD"
+      kubernetes_version = var.eks_nodegroup_blue_version
+      instance_types = ["m5.xlarge"]
+      iam_role_additional_policies  = {
+        amazonEFS = "arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy"
+        amazonEBS = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+      }
