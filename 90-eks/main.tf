@@ -92,3 +92,12 @@ module "eks" {
       }
     }
   }
+
+  tags = merge(
+    local.common_tags,
+    {
+        Name = local.common_name_suffix
+    }
+  )
+  
+}
