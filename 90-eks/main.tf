@@ -86,3 +86,9 @@ module "eks" {
       #     effect = "NO_SCHEDULE"
       #   }
       # }
+
+      labels = {
+        nodegroup = "green"
+      }
+    }
+  }
