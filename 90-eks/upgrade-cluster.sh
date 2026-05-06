@@ -105,3 +105,8 @@ aws eks update-cluster-version \
   --region "$AWS_REGION" \
   --kubernetes-version "$EKS_TARGET_VERSION" &>> "$LOG_FILE"
 VALIDATE $? "Trigger control plane upgrade"
+
+get_cluster_status() {
+  aws eks describe-cluster --name "$CLUSTER_NAME" --region "$AWS_REGION" \
+    --query 'cluster.status' --output text
+}
