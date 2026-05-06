@@ -139,3 +139,15 @@ wait_cluster_upgraded() {
     sleep 60
   done
 }
+
+
+
+wait_cluster_upgraded "$EKS_TARGET_VERSION"
+
+addon_installed() {
+  aws eks describe-addon \
+    --cluster-name "$CLUSTER_NAME" \
+    --addon-name "$1" \
+    --region "$AWS_REGION" \
+    --query 'addon.addonName' --output text >/dev/null 2>&1
+}
