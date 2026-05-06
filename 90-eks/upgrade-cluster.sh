@@ -33,3 +33,21 @@ if [ "$#" -ne 1 ]; then
   echo -e "${R}Example:${N} $0 1.34" | tee -a "$LOG_FILE"
   exit 1
 fi
+
+
+#########
+# Get the addons of the cluster, we upgrade addons once control plane is upgraded
+#########
+ADDONS=$(aws eks list-addons --cluster-name "$CLUSTER_NAME" --region "$AWS_REGION" --output text | awk '{print $2}')
+
+#########
+# Validate Function
+#########
+VALIDATE(){ # functions receive inputs through args just like shell script args
+    if [ $1 -ne 0 ]; then
+        echo -e "$2 ... $R FAILURE $N" | tee -a $LOG_FILE
+        exit 1
+    else
+        echo -e "$2 ... $G SUCCESS $N" | tee -a $LOG_FILE
+    fi
+}
