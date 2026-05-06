@@ -94,3 +94,14 @@ if [[ "$CUR_MAJOR" != "$TGT_MAJOR" || $((TGT_MINOR - CUR_MINOR)) -ne 1 ]]; then
   echo -e "${R}ABORT:${N} Target version must be exactly one minor step ahead. current=$CURRENT_CP_VERSION target=$EKS_TARGET_VERSION" | tee -a "$LOG_FILE"
   exit 1
 fi
+
+
+
+echo -e "${G}Version check passed:${N} $CURRENT_CP_VERSION -> $EKS_TARGET_VERSION" | tee -a "$LOG_FILE"
+
+echo "Upgrading Control plane version"
+aws eks update-cluster-version \
+  --name "$CLUSTER_NAME" \
+  --region "$AWS_REGION" \
+  --kubernetes-version "$EKS_TARGET_VERSION" &>> "$LOG_FILE"
+VALIDATE $? "Trigger control plane upgrade"
