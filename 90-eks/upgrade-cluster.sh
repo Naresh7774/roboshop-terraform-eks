@@ -20,3 +20,16 @@ LOGS_FOLDER="/home/ec2-user/eks-upgrade"
 SCRIPT_NAME=$( echo $0 | cut -d "." -f1 )
 SCRIPT_DIR=$PWD
 LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log" # /var/log/shell-script/16-logs.log
+
+
+mkdir -p $LOGS_FOLDER
+echo "Script started executed at: $(date)" | tee -a $LOG_FILE
+
+#########
+# Checking the args passed
+#########
+if [ "$#" -ne 1 ]; then
+  echo -e "${R}Usage:${N} $0 <EKS_TARGET_VERSION>" | tee -a "$LOG_FILE"
+  echo -e "${R}Example:${N} $0 1.34" | tee -a "$LOG_FILE"
+  exit 1
+fi
