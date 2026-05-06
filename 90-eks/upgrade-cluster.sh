@@ -51,3 +51,16 @@ VALIDATE(){ # functions receive inputs through args just like shell script args
         echo -e "$2 ... $G SUCCESS $N" | tee -a $LOG_FILE
     fi
 }
+
+
+
+
+#########
+# Get the current CP version
+#########
+CURRENT_CP_VERSION=$(aws eks describe-cluster \
+  --name "$CLUSTER_NAME" \
+  --region "$AWS_REGION" \
+  --query 'cluster.version' \
+  --output text)
+VALIDATE $? "Fetch current control plane version"
