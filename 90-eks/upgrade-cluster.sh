@@ -110,3 +110,8 @@ get_cluster_status() {
   aws eks describe-cluster --name "$CLUSTER_NAME" --region "$AWS_REGION" \
     --query 'cluster.status' --output text
 }
+
+get_cluster_version() {
+  aws eks describe-cluster --name "$CLUSTER_NAME" --region "$AWS_REGION" \
+    --query 'cluster.version' --output text
+}
