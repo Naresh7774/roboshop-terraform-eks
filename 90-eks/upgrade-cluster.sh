@@ -64,3 +64,24 @@ CURRENT_CP_VERSION=$(aws eks describe-cluster \
   --query 'cluster.version' \
   --output text)
 VALIDATE $? "Fetch current control plane version"
+
+
+echo -e "Current CP version: ${Y} ${CURRENT_CP_VERSION} ${N}" | tee -a "$LOG_FILE"
+echo -e "Target  CP version: ${Y} ${EKS_TARGET_VERSION} ${N}" | tee -a "$LOG_FILE"
+
+#########
+# Get the current and target Major and Minor versions
+#########
+CUR_MAJOR=$(echo "$CURRENT_CP_VERSION" | cut -d. -f1)
+CUR_MINOR=$(echo "$CURRENT_CP_VERSION" | cut -d. -f2)
+
+TGT_MAJOR=$(echo "$EKS_TARGET_VERSION" | cut -d. -f1)
+TGT_MINOR=$(echo "$EKS_TARGET_VERSION" | cut -d. -f2)
+
+#########
+# check version variables are not empty
+#########
+if [[ -z "$CUR_MAJOR" || -z "$CUR_MINOR" || -z "$TGT_MAJOR" || -z "$TGT_MINOR" ]]; then
+  echo -e "${R}Unable to parse versions. current=$CURRENT_CP_VERSION target=$EKS_TARGET_VERSION${N}" | tee -a "$LOG_FILE"
+  exit 1
+fi
