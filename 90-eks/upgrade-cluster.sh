@@ -151,3 +151,12 @@ addon_installed() {
     --region "$AWS_REGION" \
     --query 'addon.addonName' --output text >/dev/null 2>&1
 }
+
+
+addon_version() {
+  aws eks describe-addon \
+    --cluster-name "$CLUSTER_NAME" \
+    --addon-name "$1" \
+    --region "$AWS_REGION" \
+    --query 'addon.addonVersion' --output text 2>/dev/null || echo "UNKNOWN"
+}
