@@ -115,3 +115,27 @@ get_cluster_version() {
   aws eks describe-cluster --name "$CLUSTER_NAME" --region "$AWS_REGION" \
     --query 'cluster.version' --output text
 }
+
+
+wait_cluster_upgraded() {
+  local expected="$1"
+  echo -e "${Y}Waiting for cluster to become ACTIVE and version=$expected...${N}" | tee -a "$LOG_FILE"
+
+  while true; do
+    status=$(get_cluster_status)
+    version=$(get_cluster_version)
+
+    echo "Cluster status=$status version=$version" | tee -a "$LOG_FILE"
+
+    if [[ "$status" == "ACTIVE" && "$version" == "$expected" ]]; then
+      echo -e "Control plane upgraded to $version ... ${G}SUCCESS${N}" | tee -a "$LOG_FILE"
+      break
+    fi
+
+    if [[ "$status" == "FAILED" ]]; then
+      echo -e "Control plane upgraded to $version ... ${G}FAILURE${N}" | tee -a "$LOG_FILE"
+      exit 1
+    fi
+    sleep 60
+  done
+}
