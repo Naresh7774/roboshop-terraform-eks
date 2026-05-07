@@ -210,3 +210,21 @@ wait_addon_active_and_version(){
     sleep 20
   done
 }
+
+
+
+
+
+upgrade_addons_to_latest_compatible(){
+  local cp_ver="$1"
+  for addon in $ADDONS; do
+    
+    local current latest
+    current=$(addon_version "$addon")
+    latest=$(latest_compatible_addon_version "$addon" "$cp_ver")
+    #echo "DEBUG: addon=$addon cp_ver=$cp_ver latest='$latest'" | tee -a "$LOG_FILE"
+
+    if [[ -z "$latest" || "$latest" == "None" ]]; then
+      echo -e "${R}Could not find compatible latest version for addon $addon on cluster $cp_ver${N}"
+      exit 1
+    fi
