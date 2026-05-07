@@ -228,3 +228,23 @@ upgrade_addons_to_latest_compatible(){
       echo -e "${R}Could not find compatible latest version for addon $addon on cluster $cp_ver${N}"
       exit 1
     fi
+
+
+    echo -e "${Y}Addon $addon current=$current latest_compatible=$latest${N}"
+
+    if [[ "$current" == "$latest" ]]; then
+      echo -e "${G}Addon $addon already at latest compatible version${N}"
+      continue
+    fi
+
+    aws eks update-addon \
+      --cluster-name "$CLUSTER_NAME" \
+      --addon-name "$addon" \
+      --addon-version "$latest" \
+      --resolve-conflicts PRESERVE \
+      --region "$AWS_REGION" &>> "$LOG_FILE"
+    VALIDATE $? "Update addon $addon -> $latest"
+
+    wait_addon_active_and_version "$addon" "$latest"
+  done
+}
