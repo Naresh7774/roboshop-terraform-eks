@@ -184,3 +184,29 @@ addon_status() {
     --region "$AWS_REGION" \
     --query 'addon.status' --output text 2>/dev/null || echo "MISSING"
 }
+
+
+wait_addon_active_and_version(){
+  local addon="$1"
+  local expected="$2"
+  echo -e "${Y}Waiting for addon $addon to be ACTIVE at version=$expected ...${N}"
+  while true; do
+    local st ver
+    st=$(addon_status "$addon")
+    ver=$(addon_version "$addon")
+    echo -e "Addon $addon status=$st version=$ver"
+    if [[ "$st" == "ACTIVE" && "$ver" == "$expected" ]]; then
+      echo -e "${G}Addon $addon upgraded OK: $ver${N}"
+      break
+    fi
+    if [[ "$st" == "DEGRADED" || "$st" == "UPDATE_FAILED" || "$st" == "FAILED" ]]; then
+      echo -e "${R}Addon $addon upgrade problem: status=$st${N}"
+      exit 1
+    fi
+    if [[ "$st" == "MISSING" ]]; then
+      echo -e "${Y}Addon $addon not installed. Skipping wait.${N}"
+      break
+    fi
+    sleep 20
+  done
+}
