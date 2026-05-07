@@ -176,3 +176,11 @@ latest_compatible_addon_version() {
   | sort -V \
   | tail -n 1
 }
+
+addon_status() {
+  aws eks describe-addon \
+    --cluster-name "$CLUSTER_NAME" \
+    --addon-name "$1" \
+    --region "$AWS_REGION" \
+    --query 'addon.status' --output text 2>/dev/null || echo "MISSING"
+}
