@@ -248,3 +248,7 @@ upgrade_addons_to_latest_compatible(){
     wait_addon_active_and_version "$addon" "$latest"
   done
 }
+
+
+
+upgrade_addons_to_latest_compatible "$EKS_TARGET_VERSION"
