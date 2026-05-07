@@ -160,3 +160,8 @@ addon_version() {
     --region "$AWS_REGION" \
     --query 'addon.addonVersion' --output text 2>/dev/null || echo "UNKNOWN"
 }
+
+
+latest_compatible_addon_version() {
+  local addon="$1"
+  local cp_ver="$2"
