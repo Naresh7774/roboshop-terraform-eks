@@ -108,3 +108,20 @@ fi
 echo -e "${Y}Planned versions: blue=$NG_BLUE_VERSION green=$NG_GREEN_VERSION cp=$CP_VERSION${N}" | tee -a "$LOG_FILE"
 
 # ---- STEP2-A: Create target nodegroup (enable both)
+
+
+terraform plan \
+  -var="eks_version=$CP_VERSION" \
+  -var="enable_blue=$ENABLE_BLUE" \
+  -var="enable_green=$ENABLE_GREEN" \
+  -var="eks_nodegroup_blue_version=$NG_BLUE_VERSION" \
+  -var="eks_nodegroup_green_version=$NG_GREEN_VERSION" | tee -a "$LOG_FILE"
+VALIDATE ${PIPESTATUS[0]} "Terraform plan (create target)"
+CONFIRM "STEP2-A: Create target nodegroup. Terraform PLAN now?"
+terraform apply -auto-approve \
+  -var="eks_version=$CP_VERSION" \
+  -var="enable_blue=$ENABLE_BLUE" \
+  -var="enable_green=$ENABLE_GREEN" \
+  -var="eks_nodegroup_blue_version=$NG_BLUE_VERSION" \
+  -var="eks_nodegroup_green_version=$NG_GREEN_VERSION" | tee -a "$LOG_FILE"
+VALIDATE ${PIPESTATUS[0]} "Terraform apply (create target)"
