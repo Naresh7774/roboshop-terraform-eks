@@ -141,3 +141,20 @@ for n in $TARGET_NODES; do
   kubectl taint "$n" upgrade=true:NoSchedule- >/dev/null 2>&1
 done
 echo -e "${G}Taint removal attempted (safe if not present).${N}" | tee -a "$LOG_FILE"
+
+
+
+# --- Cordon + Drain current nodes
+CONFIRM "Proceed to cordon+drain CURRENT nodegroup=${CURRENT_NG_VERSION} ?"
+
+echo -e "${Y}Cordoning current nodes: nodegroup=${CURRENT_NG_VERSION}${N}" | tee -a "$LOG_FILE"
+kubectl cordon -l "nodegroup=${CURRENT_NG_VERSION}" 2>&1 | tee -a "$LOG_FILE"
+VALIDATE ${PIPESTATUS[0]} "Cordon current nodegroup"
+
+echo -e "${Y}Draining current nodes: nodegroup=${CURRENT_NG_VERSION}${N}" | tee -a "$LOG_FILE"
+kubectl drain -l "nodegroup=${CURRENT_NG_VERSION}" \
+  --ignore-daemonsets \
+  --delete-emptydir-data \
+  --grace-period=60 \
+  --timeout=30m 2>&1 | tee -a "$LOG_FILE"
+VALIDATE ${PIPESTATUS[0]} "Drain current nodegroup"
