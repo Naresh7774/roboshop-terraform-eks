@@ -90,3 +90,16 @@ if [[ -z "$CURRENT_NG_K8S_VER" ]]; then
 fi
 
 echo -e "${Y}${CURRENT_NG_VERSION} kubeletVersion: $KUBELET_VER -> detected $CURRENT_NG_K8S_VER${N}" | tee -a "$LOG_FILE"
+
+
+# --- Terraform vars
+ENABLE_BLUE=true
+ENABLE_GREEN=true
+
+if [[ "$CURRENT_NG_VERSION" == "green" ]]; then
+  NG_GREEN_VERSION="$CURRENT_NG_K8S_VER"
+  NG_BLUE_VERSION="$CP_VERSION"
+else
+  NG_BLUE_VERSION="$CURRENT_NG_K8S_VER"
+  NG_GREEN_VERSION="$CP_VERSION"
+fi
