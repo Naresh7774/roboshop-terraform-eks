@@ -71,3 +71,13 @@ CP_VERSION=$(aws eks describe-cluster \
   --output text)
 VALIDATE $? "Fetch current control plane version"
 echo -e "${Y}Control plane version: $CP_VERSION${N}" | tee -a "$LOG_FILE"
+
+
+# --- Detect current nodegroup kubelet minor version
+KUBELET_VER=$(kubectl get nodes -l "nodegroup=${CURRENT_NG_VERSION}" \
+  -o jsonpath='{.items[0].status.nodeInfo.kubeletVersion}' 2>/dev/null)
+
+if [[ -z "$KUBELET_VER" ]]; then
+  echo -e "${R}No nodes found with label nodegroup=${CURRENT_NG_VERSION}. Check node labels.${N}" | tee -a "$LOG_FILE"
+  exit 1
+fi
