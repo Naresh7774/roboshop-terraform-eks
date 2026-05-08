@@ -125,3 +125,10 @@ terraform apply -auto-approve \
   -var="eks_nodegroup_blue_version=$NG_BLUE_VERSION" \
   -var="eks_nodegroup_green_version=$NG_GREEN_VERSION" | tee -a "$LOG_FILE"
 VALIDATE ${PIPESTATUS[0]} "Terraform apply (create target)"
+
+# --- Wait for target nodes Ready
+echo -e "${Y}Waiting for target nodes Ready: nodegroup=${TARGET_NG_VERSION}${N}" | tee -a "$LOG_FILE"
+kubectl get nodes -l "nodegroup=${TARGET_NG_VERSION}" -o wide | tee -a "$LOG_FILE"
+
+kubectl wait --for=condition=Ready node -l "nodegroup=${TARGET_NG_VERSION}" --timeout=30m 2>&1 | tee -a "$LOG_FILE"
+VALIDATE ${PIPESTATUS[0]} "Wait for target nodes Ready"
