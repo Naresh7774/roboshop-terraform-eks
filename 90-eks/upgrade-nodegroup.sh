@@ -50,3 +50,14 @@ if [[ "$CURRENT_NG_VERSION" != "blue" && "$CURRENT_NG_VERSION" != "green" ]]; th
   echo -e "${R}CURRENT_NG_VERSION must be either 'blue' or 'green'${N}" | tee -a "$LOG_FILE"
   exit 1
 fi
+
+
+
+if [[ "$CURRENT_NG_VERSION" == "blue" ]]; then
+  TARGET_NG_VERSION="green"
+else
+  TARGET_NG_VERSION="blue"
+fi
+
+echo -e "${Y}Current nodegroup: $CURRENT_NG_VERSION${N}" | tee -a "$LOG_FILE"
+echo -e "${Y}Target  nodegroup: $TARGET_NG_VERSION${N}" | tee -a "$LOG_FILE"
