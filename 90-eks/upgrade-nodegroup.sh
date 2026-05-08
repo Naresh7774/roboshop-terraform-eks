@@ -28,3 +28,13 @@ VALIDATE(){
     echo -e "$2 ... $G SUCCESS $N" | tee -a "$LOG_FILE"
   fi
 }
+
+
+CONFIRM(){
+  echo -e "${Y}$1${N}" | tee -a "$LOG_FILE"
+  read -p "Type YES to continue: " ANS
+  if [[ "$ANS" != "YES" ]]; then
+    echo -e "${R}Aborted by user${N}" | tee -a "$LOG_FILE"
+    exit 1
+  fi
+}
