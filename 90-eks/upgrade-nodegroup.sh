@@ -103,3 +103,8 @@ else
   NG_BLUE_VERSION="$CURRENT_NG_K8S_VER"
   NG_GREEN_VERSION="$CP_VERSION"
 fi
+
+
+echo -e "${Y}Planned versions: blue=$NG_BLUE_VERSION green=$NG_GREEN_VERSION cp=$CP_VERSION${N}" | tee -a "$LOG_FILE"
+
+# ---- STEP2-A: Create target nodegroup (enable both)
