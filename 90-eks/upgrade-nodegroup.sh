@@ -11,3 +11,7 @@ AWS_REGION="us-east-1"
 
 CURRENT_NG_VERSION="$1"  # blue|green
 TARGET_NG_VERSION=""
+
+LOGS_FOLDER="/home/ec2-user/eks-upgrade"
+SCRIPT_NAME=$(echo "$0" | cut -d "." -f1)
+LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"
