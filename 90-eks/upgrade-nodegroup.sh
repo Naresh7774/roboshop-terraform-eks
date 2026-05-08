@@ -38,3 +38,15 @@ CONFIRM(){
     exit 1
   fi
 }
+
+# ---- Args validation (keep only once)
+if [[ $# -ne 1 ]]; then
+  echo -e "${R}Usage:${N} $0 <CURRENT_NG_VERSION>" | tee -a "$LOG_FILE"
+  echo -e "${R}Example:${N} $0 green" | tee -a "$LOG_FILE"
+  exit 1
+fi
+
+if [[ "$CURRENT_NG_VERSION" != "blue" && "$CURRENT_NG_VERSION" != "green" ]]; then
+  echo -e "${R}CURRENT_NG_VERSION must be either 'blue' or 'green'${N}" | tee -a "$LOG_FILE"
+  exit 1
+fi
