@@ -132,3 +132,12 @@ kubectl get nodes -l "nodegroup=${TARGET_NG_VERSION}" -o wide | tee -a "$LOG_FIL
 
 kubectl wait --for=condition=Ready node -l "nodegroup=${TARGET_NG_VERSION}" --timeout=30m 2>&1 | tee -a "$LOG_FILE"
 VALIDATE ${PIPESTATUS[0]} "Wait for target nodes Ready"
+
+
+# --- Remove upgrade taint from target nodes (if exists)
+echo -e "${Y}Removing upgrade taint from target nodes (if exists): nodegroup=${TARGET_NG_VERSION}${N}" | tee -a "$LOG_FILE"
+TARGET_NODES=$(kubectl get nodes -l "nodegroup=${TARGET_NG_VERSION}" -o name)
+for n in $TARGET_NODES; do
+  kubectl taint "$n" upgrade=true:NoSchedule- >/dev/null 2>&1
+done
+echo -e "${G}Taint removal attempted (safe if not present).${N}" | tee -a "$LOG_FILE"
