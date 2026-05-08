@@ -81,3 +81,12 @@ if [[ -z "$KUBELET_VER" ]]; then
   echo -e "${R}No nodes found with label nodegroup=${CURRENT_NG_VERSION}. Check node labels.${N}" | tee -a "$LOG_FILE"
   exit 1
 fi
+
+
+CURRENT_NG_K8S_VER=$(echo "$KUBELET_VER" | sed -E 's/^v([0-9]+\.[0-9]+).*/\1/')
+if [[ -z "$CURRENT_NG_K8S_VER" ]]; then
+  echo -e "${R}Failed to parse kubeletVersion: $KUBELET_VER${N}" | tee -a "$LOG_FILE"
+  exit 1
+fi
+
+echo -e "${Y}${CURRENT_NG_VERSION} kubeletVersion: $KUBELET_VER -> detected $CURRENT_NG_K8S_VER${N}" | tee -a "$LOG_FILE"
