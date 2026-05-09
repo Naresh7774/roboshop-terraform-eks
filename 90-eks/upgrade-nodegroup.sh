@@ -190,3 +190,6 @@ terraform apply -auto-approve \
   -var="eks_version=$CP_VERSION" \
   -var="enable_blue=$ENABLE_BLUE" \
   -var="enable_green=$ENABLE_GREEN" \
+  -var="eks_nodegroup_blue_version=$NG_BLUE_VERSION" \
+  -var="eks_nodegroup_green_version=$NG_GREEN_VERSION" | tee -a "$LOG_FILE"
+VALIDATE ${PIPESTATUS[0]} "Terraform apply (delete current)"
