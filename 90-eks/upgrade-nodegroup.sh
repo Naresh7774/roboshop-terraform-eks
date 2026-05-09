@@ -193,3 +193,5 @@ terraform apply -auto-approve \
   -var="eks_nodegroup_blue_version=$NG_BLUE_VERSION" \
   -var="eks_nodegroup_green_version=$NG_GREEN_VERSION" | tee -a "$LOG_FILE"
 VALIDATE ${PIPESTATUS[0]} "Terraform apply (delete current)"
+
+echo -e "${G}STEP 2 completed successfully. Target nodegroup=${TARGET_NG_VERSION} is now serving workloads.${N}" | tee -a "$LOG_FILE"
