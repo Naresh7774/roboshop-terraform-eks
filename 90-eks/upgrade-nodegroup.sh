@@ -177,3 +177,8 @@ echo -e "${Y}Final vars: enable_blue=$ENABLE_BLUE enable_green=$ENABLE_GREEN${N}
 
 
 
+terraform plan \
+  -var="eks_version=$CP_VERSION" \
+  -var="enable_blue=$ENABLE_BLUE" \
+  -var="enable_green=$ENABLE_GREEN" \
+
