@@ -186,3 +186,7 @@ terraform plan \
 VALIDATE ${PIPESTATUS[0]} "Terraform plan (delete current)"
 CONFIRM "STEP2-B: Delete current nodegroup ($CURRENT_NG_VERSION). Terraform PLAN now?"
 
+terraform apply -auto-approve \
+  -var="eks_version=$CP_VERSION" \
+  -var="enable_blue=$ENABLE_BLUE" \
+  -var="enable_green=$ENABLE_GREEN" \
