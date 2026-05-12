@@ -35,3 +35,15 @@ pipeline {
                 }
             }
         }
+        stage('Plan') {
+            steps {
+                script{
+                    withAWS(region:'us-east-1',credentials:'aws-creds') {
+                        sh """
+                            cd 90-eks
+                            terraform plan
+                        """
+                    }
+                }
+            }
+        }
